@@ -76,6 +76,11 @@ export default class ECS {
         }
     }
     
+    #clear() {
+        this.#entities.clear()
+        this.#glossary.clear()
+    }
+    
     createEntity() {
         const entity = ECS.#createId()
         this.#addEntityToStorage(entity)
@@ -85,6 +90,9 @@ export default class ECS {
     loadEntity(entity, componentsData) {
         const components = new Set(componentsData)
         this.#addEntityToStorage(entity, components)
+        components.forEach(component => {
+            this.#addComponentToGlossary(component)
+        })
     }
     
     deleteEntity(entity) {
@@ -137,7 +145,10 @@ export default class ECS {
     }
     
     loadData(data) {
-    
+        this.#clear()
+        Object.entries(data).forEach(([entity, componentsData]) => {
+            this.loadEntity(entity, componentsData)
+        })
     }
     
     debug_dump() {

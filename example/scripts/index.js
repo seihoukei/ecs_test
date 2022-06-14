@@ -12,16 +12,5 @@ window.onload = () => {
         return creep
     }
 
-    const a = createCreep(0, 0)
-    const b = createCreep(20, 20)
-    
-    console.log(base.debug_dump())
-
-    base.removeComponentsByType(a, 'position')
-    base.removeComponentsByType(b, 'position')
-    base.removeComponentsByType(a, 'velocity')
-    
-    console.log(base.debug_dump())
-    console.log(base.getSaveData())
     debugger
 }
