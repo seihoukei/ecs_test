@@ -22,5 +22,6 @@ window.onload = () => {
     base.removeComponentsByType(a, 'velocity')
     
     console.log(base.debug_dump())
+    console.log(base.getSaveData())
     debugger
 }

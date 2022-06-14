@@ -125,8 +125,15 @@ export default class ECS {
         }
     }
     
-    saveData() {
-    
+    getSaveData() {
+        const result = {}
+        this.#entities.forEach((entityComponents, entityId) => {
+            result[entityId] = []
+            entityComponents.forEach(component => {
+                result[entityId].push(component)
+            })
+        })
+        return result
     }
     
     loadData(data) {
@@ -140,9 +147,9 @@ export default class ECS {
         }
         
         this.#entities.forEach((entityComponents, entityId) => {
-            result.entities[entityId] = {}
+            result.entities[entityId] = []
             entityComponents.forEach(component => {
-                result.entities[entityId][component.__type] = component
+                result.entities[entityId].push(component)
             })
         })
         
