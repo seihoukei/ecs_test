@@ -16,6 +16,8 @@ export default class ECS {
     // search storage for entity with given component
     #glossary = new Map()
     
+    #systems = []
+    
     #addEntityToStorage(entity, data = new Set()) {
         this.#entities.set(entity, data)
     }
@@ -111,6 +113,15 @@ export default class ECS {
         return this.#getEntityFromComponentGlossary(type, entity)
     }
     
+    getComponentsByType(type) {
+        const entities = this.#getComponentGlossary(type)
+        const result = []
+        entities.forEach(components => {
+            result.push(...components)
+        })
+        return result
+    }
+    
     addComponent(entity, type, data) {
         const component = ECS.#createComponent(type, data)
         
@@ -148,6 +159,16 @@ export default class ECS {
         this.#clear()
         Object.entries(data).forEach(([entity, componentsData]) => {
             this.loadEntity(entity, componentsData)
+        })
+    }
+    
+    registerSystem(system) {
+        this.#systems.push(system)
+    }
+    
+    advance(deltaTime) {
+        this.#systems.forEach(system => {
+            system(this, deltaTime)
         })
     }
     
